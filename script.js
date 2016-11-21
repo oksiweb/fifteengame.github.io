@@ -48,7 +48,7 @@
 
     var  move= {up: -4, left: -1, down: 4, right: 1};
 
-    function shiftCell(targetId){
+    function shiftCell(event,targetId){
         for(var key in move){
             var newId = Number(targetId) + move[key];
             if (newId <16 && newId >=0) {
@@ -77,8 +77,8 @@
 	}
 
     function puzzleClick(event) {
-        var targetId = event.target.id;
-        shiftCell(targetId);
+        var targetId = event.target.getAttribute('id');
+        shiftCell(event,targetId);
         isCompleted()
     }
 
