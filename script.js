@@ -17,7 +17,7 @@
 
     function fill() {
         [].forEach.call(battleField.children, function(item,i){
-            item.setAttribute('id', i);
+            item.setAttribute('data-item', i);
             item.textContent = order[i] ;
         })
     }
@@ -48,11 +48,11 @@
 
     var  move= {up: -4, left: -1, down: 4, right: 1};
 
-    function shiftCell(event,targetId){
+    function shiftCell(event,targetItem){
         for(var key in move){
-            var newId = Number(targetId) + move[key];
-            if (newId <16 && newId >=0) {
-                var side = document.getElementById(newId);
+            var newItem = Number(targetItem) + move[key];
+            if (newItem <16 && newItem >=0) {
+                var side = document.querySelectorAll('div[data-item="'+newItem+'"]')[0];
                 if(side && side.textContent === ''){
                     side.textContent = event.target.textContent;
                     event.target.textContent = '';
@@ -77,8 +77,8 @@
 	}
 
     function puzzleClick(event) {
-        var targetId = event.target.getAttribute('id');
-        shiftCell(event,targetId);
+        var targetItem = event.target.getAttribute('data-item');
+        shiftCell(event,targetItem);
         isCompleted()
     }
 
