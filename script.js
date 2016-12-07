@@ -28,7 +28,7 @@ var view = {
      */
     fill: function(arr) {
         [].forEach.call(this.battleField.children, function(item,i){
-            item.setAttribute('data-item', i);
+            item.dataset.item = i;
             item.textContent = arr[i] ;
         })
     },
@@ -167,14 +167,14 @@ var controller = {
      *  puzzleClick is event handler, swap the positions of the cells and then check the game is completed
      */
     puzzleClick: function(event) {
-        var targetItem = event.target.getAttribute('data-item');
+        var targetItem = event.target.dataset.item;
         for(var key in controller.move){
             var newItem = Number(targetItem) + controller.move[key];
             if (newItem <16 && newItem >=0) {
                 var side = document.querySelectorAll('div[data-item="'+newItem+'"]')[0];
                     if(side && side.textContent === ''){
                         var a = newItem;
-                        var b = event.target.getAttribute('data-item');
+                        var b = event.target.dataset.item;
                         model.changeCell(a,b)
                         view.swapCells(side,event.target)
                     }
@@ -210,8 +210,10 @@ var controller = {
                 model.set(model.order);
             }
             var data = model.get();
-            view.create();
-            view.fill(data);
+            if(!view.battleField.firstChild){
+                view.create();
+                view.fill(data);
+            }
             this.eventButton();
             if(data.length>15){
                 this.event();
